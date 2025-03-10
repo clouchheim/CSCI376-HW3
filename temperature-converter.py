@@ -25,7 +25,16 @@ def convert():
         # text-negative: Uses the 'negative' color from ui.colors 
 
 def convert_2():
-     
+    try: 
+        temp_2 = float(slider.value)
+        if conversion_type_2.value == "Celsius to Fahrenheit":
+            result_label_2.set_text(f"{temp_2}°C = {temp_2 * 9/5 + 32:.2f}°F") # this sets the empty text in result_lable later
+        else:
+            result_label_2.set_text(f"{temp_2}°F = {(temp_2 - 32) * 5/9:.2f}°C")
+        result_label_2.classes("text-lg font-semibold text-positive mx-auto")
+    except ValueError:
+        result_label_2.set_text("Please enter a valid number.")
+        result_label_2.classes("text-lg font-semibold !text-negative mt-auto")
 
 with ui.row().classes("mx-auto"):
     with ui.card().classes("w-100 p-6 shadow-xl mx-auto mt-10 rounded-xl bg-white border border-gray-300"):
@@ -51,12 +60,13 @@ with ui.row().classes("mx-auto"):
         # px-4: Adds horizontal padding
         result_label = ui.label("").classes("text-lg font-bold mt-4")
         
-    # STEP 4: NEW INPUT TYPE
+    # HW STEP 4: NEW INPUT TYPE
     with ui.card().classes("w-100 p-6 shadow-xl mx-auto mt-10 rounded-xl bg-white border border-gray-300"):
         ui.label("Temperature Converter #2").classes("text-2xl font-bold text-accent mb-4")
-        input_field = ui.input("Enter Temperature").props('type="number"').classes("w-full mb-4 p-2 text-lg border rounded focus:ring-2 focus:ring-accent")
+        slider = ui.slider(min=-50, max=100, value=50)
+        ui.label().bind_text_from(slider, 'value').classes("w-full mb-4 p-2 text-lg focus:ring-2 focus:ring-accent")
+        conversion_type_2 = ui.radio(["Celsius to Fahrenheit", "Fahrenheit to Celsius"], value="Celsius to Fahrenheit").classes("mb-4")
+        convert_button_2 = ui.button("Convert", on_click=convert_2).classes("text-white font-bold py-2 px-4 rounded")
+        result_label_2 = ui.label("").classes("text-lg font-bold mt-4")
         
-        
-
-
 ui.run()
